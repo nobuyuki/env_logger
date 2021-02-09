@@ -56,6 +56,7 @@ impl Formatter {
             Level::Info => level_style.set_color(Color::Green),
             Level::Warn => level_style.set_color(Color::Yellow),
             Level::Error => level_style.set_color(Color::Red).set_bold(true),
+            Level::Fatal => level_style.set_color(Color::Cyan).set_bold(true).set_intense(true),
         };
         level_style
     }

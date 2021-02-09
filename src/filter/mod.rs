@@ -411,7 +411,7 @@ mod tests {
     fn ensure_tests_cover_level_universe() {
         let level_universe: Level = Level::Trace; // use of trace variant is arbitrary
         match level_universe {
-            Level::Error | Level::Warn | Level::Info | Level::Debug | Level::Trace => (),
+            Level::Fatal | Level::Error | Level::Warn | Level::Info | Level::Debug | Level::Trace => (),
         }
     }
 
@@ -425,6 +425,7 @@ mod tests {
     #[test]
     fn parse_default_bare_level_off_lc() {
         let logger = Builder::new().parse("off").build();
+	assert!(!enabled(&logger.directives, Level::Fatal, ""));
         assert!(!enabled(&logger.directives, Level::Error, ""));
         assert!(!enabled(&logger.directives, Level::Warn, ""));
         assert!(!enabled(&logger.directives, Level::Info, ""));
@@ -435,6 +436,7 @@ mod tests {
     #[test]
     fn parse_default_bare_level_off_uc() {
         let logger = Builder::new().parse("OFF").build();
+	assert!(!enabled(&logger.directives, Level::Fatal, ""));
         assert!(!enabled(&logger.directives, Level::Error, ""));
         assert!(!enabled(&logger.directives, Level::Warn, ""));
         assert!(!enabled(&logger.directives, Level::Info, ""));
@@ -445,6 +447,7 @@ mod tests {
     #[test]
     fn parse_default_bare_level_error_lc() {
         let logger = Builder::new().parse("error").build();
+	assert!(enabled(&logger.directives, Level::Fatal, ""));
         assert!(enabled(&logger.directives, Level::Error, ""));
         assert!(!enabled(&logger.directives, Level::Warn, ""));
         assert!(!enabled(&logger.directives, Level::Info, ""));
@@ -465,6 +468,7 @@ mod tests {
     #[test]
     fn parse_default_bare_level_warn_lc() {
         let logger = Builder::new().parse("warn").build();
+	assert!(enabled(&logger.directives, Level::Fatal, ""));
         assert!(enabled(&logger.directives, Level::Error, ""));
         assert!(enabled(&logger.directives, Level::Warn, ""));
         assert!(!enabled(&logger.directives, Level::Info, ""));
@@ -475,6 +479,7 @@ mod tests {
     #[test]
     fn parse_default_bare_level_warn_uc() {
         let logger = Builder::new().parse("WARN").build();
+        assert!(enabled(&logger.directives, Level::Fatal, ""));
         assert!(enabled(&logger.directives, Level::Error, ""));
         assert!(enabled(&logger.directives, Level::Warn, ""));
         assert!(!enabled(&logger.directives, Level::Info, ""));
@@ -485,6 +490,7 @@ mod tests {
     #[test]
     fn parse_default_bare_level_info_lc() {
         let logger = Builder::new().parse("info").build();
+        assert!(enabled(&logger.directives, Level::Fatal, ""));
         assert!(enabled(&logger.directives, Level::Error, ""));
         assert!(enabled(&logger.directives, Level::Warn, ""));
         assert!(enabled(&logger.directives, Level::Info, ""));
@@ -495,6 +501,7 @@ mod tests {
     #[test]
     fn parse_default_bare_level_info_uc() {
         let logger = Builder::new().parse("INFO").build();
+	assert!(enabled(&logger.directives, Level::Fatal, ""));
         assert!(enabled(&logger.directives, Level::Error, ""));
         assert!(enabled(&logger.directives, Level::Warn, ""));
         assert!(enabled(&logger.directives, Level::Info, ""));
@@ -505,6 +512,7 @@ mod tests {
     #[test]
     fn parse_default_bare_level_debug_lc() {
         let logger = Builder::new().parse("debug").build();
+        assert!(enabled(&logger.directives, Level::Fatal, ""));
         assert!(enabled(&logger.directives, Level::Error, ""));
         assert!(enabled(&logger.directives, Level::Warn, ""));
         assert!(enabled(&logger.directives, Level::Info, ""));

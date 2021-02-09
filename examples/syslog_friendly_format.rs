@@ -8,6 +8,7 @@ fn main() {
                     buf,
                     "<{}>{}: {}",
                     match record.level() {
+                        log::Level::Fatal => 2,
                         log::Level::Error => 3,
                         log::Level::Warn => 4,
                         log::Level::Info => 6,
